@@ -1,9 +1,5 @@
-from os import name
 import requests
-import math
-from pprint import pprint
 from itertools import count
-from pprint import pprint
 from terminaltables import AsciiTable
 from make_it_table import make_it_table
 
@@ -70,9 +66,9 @@ def get_vacancy(developer_type):
 
 
 def main():
-    get_vacancy('Python')
-    get_vacancy('Java')
-    get_vacancy('С++')
+    developer_types = ['Python', 'Java', 'С++' ]
+    for developer_type in developer_types:
+      get_vacancy(developer_type)
     table_data = make_it_table(salaries_dict)
     title = 'HeadHunter Moscow'
     table = AsciiTable(table_data, title)

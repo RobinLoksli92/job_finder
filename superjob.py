@@ -20,6 +20,7 @@ def predict_rub_salary_for_superJob(vacancy):
         salary = None
     return salary
 
+
 def get_vacancies(developer_type):
     salaries_summ = 0
     vacancies_processed = 0
