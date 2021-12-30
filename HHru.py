@@ -37,7 +37,7 @@ def get_vacancy(developer_type):
             vacancies_found = vacancies['found']
             for vacancy_item in vacancies_items:
                 salary = predict_rub_salary_hh(vacancy_item)
-                if salary != 0:
+                if salary:
                     vacancies_processed += 1
                     salaries_summ += salary
 

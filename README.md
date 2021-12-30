@@ -11,9 +11,9 @@
 pip install -r requirements.txt
 ```
 Также необходимо зарегистрировать приложение на [SuperJob](https://api.superjob.ru/) и получить его Secret key. Его лучше "спрятать", проэтому в папке со скриптом создаем файл `.env`,
-а в него записываем `SECRET_KEY=То что вы получили по инструкции выше`. Например: 
+а в него записываем `SUPERJOB_KEY=То что вы получили по инструкции выше`. Например: 
 ```
-SECRET_KEY=v3.r.117263162.22d39dbe074139a3151a2d9524f64cbfd26e5e.8168297fb2dd4bafa54455fbbae29b9c030bafb
+SUPERJOB_KEY=v3.r.117263162.22d39dbe074139a3151a2d9524f64cbfd26e5e.8168297fb2dd4bafa54455fbbae29b9c030bafb
 ``` 
 
 ## Запуск
