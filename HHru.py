@@ -21,30 +21,27 @@ def get_vacancy(developer_type):
     vacancies_processed = 0
     hh_url = 'https://api.hh.ru/vacancies'
     for page in count(0):
-        try:
-            payload = {
-                'text': f'Программист {developer_type}',
-                'area': '1',
-                'period': '30',
-                'page': page,
-                'per_page': '100'
-            }
-            response = requests.get(hh_url, params=payload)
-            response.raise_for_status()
-            vacancies = response.json()
-            vacancies_items = vacancies['items']
-           
-            vacancies_found = vacancies['found']
-            for vacancy_item in vacancies_items:
-                salary = predict_rub_salary_hh(vacancy_item)
-                if salary:
-                    vacancies_processed += 1
-                    salaries_summ += salary
+        payload = {
+            'text': f'Программист {developer_type}',
+            'area': '1',
+            'period': '30',
+            'page': page,
+            'per_page': '100'
+        }
+        response = requests.get(hh_url, params=payload)
+        response.raise_for_status()
+        vacancies = response.json()
+        vacancies_items = vacancies['items']
+        
+        vacancies_found = vacancies['found']
+        for vacancy_item in vacancies_items:
+            salary = predict_rub_salary_hh(vacancy_item)
+            if salary:
+                vacancies_processed += 1
+                salaries_summ += salary
 
-            if page >= vacancies['pages']:
-                break
-        except requests.exceptions.HTTPError:
-                break
+        if page+1 >= vacancies['pages']:
+            break
     average_salary= int(salaries_summ/vacancies_processed)    
     
     salaries_dict.update({
