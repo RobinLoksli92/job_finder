@@ -1,4 +1,7 @@
-def make_it_table(salaries_dict):
+from terminaltables import AsciiTable
+
+
+def make_it_table(salaries_dict, title):
     table_data = [
         ['Язык программирования',
          'Вакансий найдено',
@@ -12,6 +15,7 @@ def make_it_table(salaries_dict):
              salary_info['vacancies_processed'],
              salary_info['average_salary']]
         )
-    return table_data
+    table = AsciiTable(table_data, title)
+    return table
 
 
