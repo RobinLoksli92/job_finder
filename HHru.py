@@ -1,27 +1,19 @@
 import requests
 from itertools import count
-from terminaltables import AsciiTable
 from make_it_table import make_it_table
+from predict_salary import predict_salary
 
 salaries_dict ={}
 
 
-def predict_rub_salary(vacancy_item):
+def predict_rub_salary_hh(vacancy_item):
     salary_info = vacancy_item['salary']
-    if salary_info is not None:
+    if salary_info:
+        salary_to = salary_info['to']
+        salary_from = salary_info['from']
         if salary_info['currency'] == 'RUR':
-            if salary_info['from'] != None and salary_info['to'] != None:
-                salary = (vacancy_item['salary']['to'] + vacancy_item['salary']['from'])/2
-            elif salary_info['from'] == None:
-                salary = salary_info['to'] * 0.8
-            elif salary_info['to'] == None:
-                salary = salary_info['from'] * 1.2
-            return salary
-        else:
-            salary = 0
-    else:
-        salary = 0
-    return salary
+            return predict_salary(salary_to, salary_from)
+    return 0
         
 
 def get_vacancy(developer_type):
@@ -44,7 +36,7 @@ def get_vacancy(developer_type):
            
             vacancies_found = vacancies['found']
             for vacancy_item in vacancies_items:
-                salary = predict_rub_salary(vacancy_item)
+                salary = predict_rub_salary_hh(vacancy_item)
                 if salary != 0:
                     vacancies_processed += 1
                     salaries_summ += salary
@@ -69,9 +61,8 @@ def main():
     developer_types = ['Python', 'Java', 'С++' ]
     for developer_type in developer_types:
       get_vacancy(developer_type)
-    table_data = make_it_table(salaries_dict)
-    title = 'HeadHunter Moscow'
-    table = AsciiTable(table_data, title)
+    title = 'HeadHunters'
+    table = make_it_table(salaries_dict, title)
     print(table.table)
 
 if __name__ == '__main__':

@@ -2,32 +2,28 @@ import requests
 import os
 from dotenv import load_dotenv
 from itertools import count
-from terminaltables import AsciiTable
 from make_it_table import make_it_table
+from predict_salary import predict_salary
 
 
 salaries_dict = {}
 
 
 def predict_rub_salary_for_superJob(vacancy):
-    if vacancy['payment_from'] != 0 and vacancy['payment_to'] != 0:
-        salary = (vacancy['payment_from'] + vacancy['payment_to'])/2
-    elif vacancy['payment_from'] == 0:
-        salary = vacancy['payment_to'] * 0.8
-    elif vacancy['payment_to'] == 0:
-        salary = vacancy['payment_from'] * 1.2
-    elif vacancy['payment_from'] == 0 and vacancy['payment_to'] == 0:
-        salary = None
-    return salary
+    if vacancy['currency'] == 'rub':
+        salary_to = vacancy['payment_to']
+        salary_from = vacancy['payment_from']
+        return predict_salary(salary_to, salary_from)
+    return 0
 
 
-def get_vacancies(developer_type):
+def get_vacancies(developer_type, superjob_key):
     salaries_summ = 0
     vacancies_processed = 0
 
     url = 'https://api.superjob.ru/2.0/vacancies'
     headers = {
-        'X-Api-App-Id':os.getenv('SECRET_KEY')
+        'X-Api-App-Id': superjob_key
     }
 
     for page in count(0):
@@ -35,7 +31,6 @@ def get_vacancies(developer_type):
             'keyword':f'Программист {developer_type}',
             'town':'Moscow',
             'page': page,
-            # 'no_agreement': 1
         }
 
         response = requests.get(url, headers=headers, params=payload)
@@ -45,13 +40,11 @@ def get_vacancies(developer_type):
 
         for vacancy in vacancies['objects']:
             salary = predict_rub_salary_for_superJob(vacancy)
-            if salary != 0 and salary is not None:
+            if salary:
                     vacancies_processed += 1
                     salaries_summ += salary
 
-        if vacancies['more']:
-            continue
-        elif not vacancies['more']:
+        if not vacancies['more']:
             break
     average_salary= int(salaries_summ/vacancies_processed) 
     vacancy_info = {developer_type: {
@@ -65,12 +58,12 @@ def get_vacancies(developer_type):
 
 def main():
     load_dotenv()
-
-    salaries_dict.update(get_vacancies('python'))
-    salaries_dict.update(get_vacancies('Java'))
-    table_data = make_it_table(salaries_dict)
-    title = 'SuperJob Moscow '
-    table = AsciiTable(table_data,title)
+    developer_types = ['Python', 'Java', 'C++']
+    superjob_key = os.getenv('SUPERJOB_KEY')
+    for developer_type in developer_types:
+        salaries_dict.update(get_vacancies(developer_type, superjob_key))
+    title = 'SuperJob'
+    table = make_it_table(salaries_dict, title)
     print(table.table)
 
 
