@@ -4,7 +4,7 @@ from make_it_table import make_it_table
 from predict_salary import predict_salary
 
 
-salaries_dict ={}
+salaries ={}
 
 
 def predict_rub_salary_hh(vacancy):
@@ -45,14 +45,14 @@ def get_vacancy(developer_type):
             break
     average_salary= int(salaries_summ/vacancies_processed)    
     
-    salaries_dict.update({
+    salaries.update({
         developer_type: {
             'vacancies_found': vacancies_found,
             'vacancies_processed': vacancies_processed,
             'average_salary': average_salary
         }
     })    
-    return salaries_dict
+    return salaries
 
 
 def main():
@@ -60,7 +60,7 @@ def main():
     for developer_type in developer_types:
       get_vacancy(developer_type)
     title = 'HeadHunters'
-    table = make_it_table(salaries_dict, title)
+    table = make_it_table(salaries, title)
     print(table.table)
 
 if __name__ == '__main__':

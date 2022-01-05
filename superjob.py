@@ -6,7 +6,7 @@ from make_it_table import make_it_table
 from predict_salary import predict_salary
 
 
-salaries_dict = {}
+salaries = {}
 
 
 def predict_rub_salary_for_superJob(vacancy):
@@ -61,9 +61,9 @@ def main():
     developer_types = ['Python', 'Java', 'C++']
     superjob_key = os.getenv('SUPERJOB_KEY')
     for developer_type in developer_types:
-        salaries_dict.update(get_vacancies(developer_type, superjob_key))
+        salaries.update(get_vacancies(developer_type, superjob_key))
     title = 'SuperJob'
-    table = make_it_table(salaries_dict, title)
+    table = make_it_table(salaries, title)
     print(table.table)
 
 
