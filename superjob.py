@@ -47,13 +47,13 @@ def get_vacancies(developer_type, superjob_key):
         if not vacancies['more']:
             break
     average_salary= int(salaries_summ/vacancies_processed) 
-    vacancy_info = {developer_type: {
+    vacancy_details = {developer_type: {
             'vacancies_found': vacancies_found,
             'vacancies_processed': vacancies_processed,
             'average_salary': average_salary
         }
     }
-    return vacancy_info
+    return vacancy_details
 
 
 def main():

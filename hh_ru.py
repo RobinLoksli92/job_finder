@@ -32,11 +32,11 @@ def get_vacancy(developer_type):
         response = requests.get(hh_url, params=payload)
         response.raise_for_status()
         vacancies = response.json()
-        vacancies_items = vacancies['items']
+        vacancies_details = vacancies['items']
         
         vacancies_found = vacancies['found']
-        for vacancy_item in vacancies_items:
-            salary = predict_rub_salary_hh(vacancy_item)
+        for vacancy_details in vacancies_details:
+            salary = predict_rub_salary_hh(vacancy_details)
             if salary:
                 vacancies_processed += 1
                 salaries_summ += salary
