@@ -1,7 +1,9 @@
-import requests
-import os
-from dotenv import load_dotenv
 from itertools import count
+import os
+
+from dotenv import load_dotenv
+import requests
+
 from make_it_table import make_it_table
 from predict_salary import predict_salary
 
@@ -14,7 +16,7 @@ def predict_rub_salary_for_superJob(vacancy):
     return 0
 
 
-def get_vacancies(developer_type, superjob_key):
+def get_vacancy_details(developer_type, superjob_key):
     salaries_summ = 0
     vacancies_processed = 0
 
@@ -43,7 +45,10 @@ def get_vacancies(developer_type, superjob_key):
 
         if not vacancies['more']:
             break
-    average_salary= int(salaries_summ/vacancies_processed) 
+    if not vacancies_processed:
+        average_salary = 0
+    else:
+        average_salary= salaries_summ//vacancies_processed  
     vacancy_details = {developer_type: {
             'vacancies_found': vacancies_found,
             'vacancies_processed': vacancies_processed,
@@ -59,7 +64,7 @@ def main():
     developer_types = ['Python', 'Java', 'C++']
     superjob_key = os.getenv('SUPERJOB_KEY')
     for developer_type in developer_types:
-        salaries.update(get_vacancies(developer_type, superjob_key))
+        salaries.update(get_vacancy_details(developer_type, superjob_key))
     title = 'SuperJob'
     table = make_it_table(salaries, title)
     print(table.table)

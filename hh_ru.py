@@ -1,5 +1,7 @@
-import requests
 from itertools import count
+
+import requests
+
 from make_it_table import make_it_table
 from predict_salary import predict_salary
 
@@ -14,7 +16,7 @@ def predict_rub_salary_hh(vacancy):
     return 0
         
 
-def get_vacancy(developer_type):
+def get_vacancy_details(developer_type):
     salaries_summ = 0
     vacancies_processed = 0
     hh_url = 'https://api.hh.ru/vacancies'
@@ -40,7 +42,10 @@ def get_vacancy(developer_type):
 
         if page+1 >= vacancies['pages']:
             break
-    average_salary= salaries_summ//vacancies_processed 
+    if not vacancies_processed:
+        average_salary = 0
+    else:
+        average_salary= salaries_summ//vacancies_processed 
     
     vacancy_details = {developer_type:{
         'vacancies_found': vacancies_found,
@@ -55,7 +60,7 @@ def main():
     salaries = {}
     developer_types = ['Python', 'Java', 'С++' ]
     for developer_type in developer_types:
-        salaries.update(get_vacancy(developer_type))
+        salaries.update(get_vacancy_details(developer_type))
     title = 'HeadHunters'
     table = make_it_table(salaries, title)
     print(table.table)
