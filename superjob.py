@@ -6,9 +6,6 @@ from make_it_table import make_it_table
 from predict_salary import predict_salary
 
 
-salaries = {}
-
-
 def predict_rub_salary_for_superJob(vacancy):
     if vacancy['currency'] == 'rub':
         salary_to = vacancy['payment_to']
@@ -58,6 +55,7 @@ def get_vacancies(developer_type, superjob_key):
 
 def main():
     load_dotenv()
+    salaries = {}
     developer_types = ['Python', 'Java', 'C++']
     superjob_key = os.getenv('SUPERJOB_KEY')
     for developer_type in developer_types:

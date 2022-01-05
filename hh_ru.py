@@ -4,9 +4,6 @@ from make_it_table import make_it_table
 from predict_salary import predict_salary
 
 
-salaries ={}
-
-
 def predict_rub_salary_hh(vacancy):
     salary_details = vacancy['salary']
     if salary_details:
@@ -43,22 +40,22 @@ def get_vacancy(developer_type):
 
         if page+1 >= vacancies['pages']:
             break
-    average_salary= int(salaries_summ/vacancies_processed)    
+    average_salary= salaries_summ//vacancies_processed 
     
-    salaries.update({
-        developer_type: {
-            'vacancies_found': vacancies_found,
-            'vacancies_processed': vacancies_processed,
-            'average_salary': average_salary
+    vacancy_details = {developer_type:{
+        'vacancies_found': vacancies_found,
+        'vacancies_processed': vacancies_processed,
+        'average_salary': average_salary
         }
-    })    
-    return salaries
+    }
+    return vacancy_details
 
 
 def main():
+    salaries = {}
     developer_types = ['Python', 'Java', 'С++' ]
     for developer_type in developer_types:
-      get_vacancy(developer_type)
+        salaries.update(get_vacancy(developer_type))
     title = 'HeadHunters'
     table = make_it_table(salaries, title)
     print(table.table)
