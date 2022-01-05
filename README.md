@@ -20,13 +20,13 @@ SUPERJOB_KEY=v3.r.117263162.22d39dbe074139a3151a2d9524f64cbfd26e5e.8168297fb2dd4
 
 До запуска проргаммы вам необходимо определиться, какой сайт вы собираетесь парсить. Для парсинга [hh.ru](https://hh.ru/) в командной введите(для пользователей Windows):
 ```
-python HHru.py
+python hh_ru.py
 ``` 
 или (для Linux):
 ```
-python3 HHru.py
+python3 hh_ru.py
 ```
-По аналогии, только для [superjob.ru](superjob.ru) (для Windows):
+По аналогии, только для [superjob.ru](https://superjob.ru) (для Windows):
 
 ```
 python superjob.py
