@@ -48,12 +48,12 @@ def get_vacancy_details(developer_type, superjob_key):
         average_salary = 0
     else:
         average_salary= salaries_summ//vacancies_processed  
-    vacancy_details = {developer_type: {
+    vacancy_details = {
             'vacancies_found': vacancies_found,
             'vacancies_processed': vacancies_processed,
             'average_salary': average_salary
         }
-    }
+    
     return vacancy_details
 
 
@@ -63,7 +63,7 @@ def main():
     developer_types = ['Python', 'Java', 'C++']
     superjob_key = os.getenv('SUPERJOB_KEY')
     for developer_type in developer_types:
-        salaries.update(get_vacancy_details(developer_type, superjob_key))
+        salaries.update({developer_type:get_vacancy_details(developer_type, superjob_key)})
     title = 'SuperJob'
     table = make_it_table(salaries, title)
     print(table.table)

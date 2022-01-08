@@ -47,12 +47,12 @@ def get_vacancy_details(developer_type):
     else:
         average_salary= salaries_summ//vacancies_processed 
     
-    vacancy_details = {developer_type:{
+    vacancy_details = {
         'vacancies_found': vacancies_found,
         'vacancies_processed': vacancies_processed,
         'average_salary': average_salary
         }
-    }
+    
     return vacancy_details
 
 
@@ -60,7 +60,7 @@ def main():
     salaries = {}
     developer_types = ['Python', 'Java', 'С++' ]
     for developer_type in developer_types:
-        salaries.update(get_vacancy_details(developer_type))
+        salaries.update({developer_type : get_vacancy_details(developer_type)})
     title = 'HeadHunters'
     table = make_it_table(salaries, title)
     print(table.table)
