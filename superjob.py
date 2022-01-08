@@ -24,14 +24,13 @@ def get_vacancy_details(developer_type, superjob_key):
     headers = {
         'X-Api-App-Id': superjob_key
     }
-
-    for page in count(0):
-        payload = {
+    payload = {
             'keyword':f'Программист {developer_type}',
-            'town':'Moscow',
-            'page': page,
+            'town':'Moscow'
         }
 
+    for page in count(0):
+        payload.update({'page': page})
         response = requests.get(url, headers=headers, params=payload)
         response.raise_for_status()
         vacancies = response.json()

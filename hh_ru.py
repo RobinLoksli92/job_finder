@@ -20,14 +20,14 @@ def get_vacancy_details(developer_type):
     salaries_summ = 0
     vacancies_processed = 0
     hh_url = 'https://api.hh.ru/vacancies'
-    for page in count(0):
-        payload = {
+    payload = {
             'text': f'Программист {developer_type}',
             'area': '1',
             'period': '30',
-            'page': page,
             'per_page': '100'
         }
+    for page in count(0):
+        payload.update({'page': page})
         response = requests.get(hh_url, params=payload)
         response.raise_for_status()
         vacancies = response.json()
